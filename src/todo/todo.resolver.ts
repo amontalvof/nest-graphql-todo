@@ -3,8 +3,10 @@ import { Todo } from './entity/todo.entity';
 import { TodoService } from './todo.service';
 import { CreateTodoInput } from './dto/inputs/create-todo.input';
 import { UpdateTodoInput } from './dto/inputs/update-todo.input';
+import { StatusArgs } from './dto/args/status.args';
+import { Aggregations } from './types/aggregations.type';
 
-@Resolver()
+@Resolver(() => Todo)
 export class TodoResolver {
     constructor(private readonly todoService: TodoService) {}
 
@@ -14,8 +16,8 @@ export class TodoResolver {
     }
 
     @Query(() => [Todo], { name: 'todos' })
-    readAll(): Todo[] {
-        return this.todoService.readAll();
+    readAll(@Args() statusArgs: StatusArgs): Todo[] {
+        return this.todoService.readAll(statusArgs);
     }
 
     @Query(() => Todo, { name: 'todo' })
@@ -28,5 +30,33 @@ export class TodoResolver {
         return this.todoService.update(updateTodoInput);
     }
 
-    delete() {}
+    @Mutation(() => Todo, { name: 'deleteTodo' })
+    delete(@Args('id', { type: () => Int }) id: number) {
+        return this.todoService.delete(id);
+    }
+
+    @Query(() => Int, { name: 'totalTodosAmount' })
+    totalTodos() {
+        return this.todoService.totalTodos;
+    }
+
+    @Query(() => Int, { name: 'completedTodosAmount' })
+    completedTodos() {
+        return this.todoService.completedTodos;
+    }
+
+    @Query(() => Int, { name: 'pendingTodosAmount' })
+    pendingTodos() {
+        return this.todoService.pendingTodos;
+    }
+
+    @Query(() => Aggregations, { name: 'aggregations' })
+    aggregations(): Aggregations {
+        return {
+            total: this.todoService.totalTodos,
+            totalAggregatedTodos: this.todoService.totalTodos,
+            completedAggregatedTodos: this.todoService.completedTodos,
+            pendingAggregatedTodos: this.todoService.pendingTodos,
+        };
+    }
 }

@@ -8,14 +8,30 @@ type Todo {
   done: Boolean!
 }
 
+"""Aggregations of todos"""
+type Aggregations {
+  total: Int! @deprecated(reason: "This field is deprecated, use totalAggregatedTodos instead")
+  totalAggregatedTodos: Int!
+  completedAggregatedTodos: Int!
+  pendingAggregatedTodos: Int!
+}
+
 type Query {
-  todos: [Todo!]!
+  todos(
+    """Filter todos by status."""
+    status: Boolean
+  ): [Todo!]!
   todo(id: Int!): Todo!
+  totalTodosAmount: Int!
+  completedTodosAmount: Int!
+  pendingTodosAmount: Int!
+  aggregations: Aggregations!
 }
 
 type Mutation {
   createTodo(createTodoInput: CreateTodoInput!): Todo!
   updateTodo(updateTodoInput: UpdateTodoInput!): Todo!
+  deleteTodo(id: Int!): Todo!
 }
 
 input CreateTodoInput {
