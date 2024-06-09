@@ -10,4 +10,26 @@ type Todo {
 
 type Query {
   todos: [Todo!]!
+  todo(id: Int!): Todo!
+}
+
+type Mutation {
+  createTodo(createTodoInput: CreateTodoInput!): Todo!
+  updateTodo(updateTodoInput: UpdateTodoInput!): Todo!
+}
+
+input CreateTodoInput {
+  """What needs to be done."""
+  description: String!
+}
+
+input UpdateTodoInput {
+  """The ID of the todo to update."""
+  id: Float!
+
+  """What needs to be done."""
+  description: String
+
+  """Is the task done?"""
+  done: Boolean
 }
