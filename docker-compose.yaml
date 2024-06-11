@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+    nest-graphql-todo:
+        environment:
+            - NODE_ENV=development
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: nest-graphql-todo
+        volumes:
+            - ./:/usr/src/app
+        container_name: app
+        expose:
+            - '3000'
+        ports:
+            - '3000:3000'
+        command: npm run start:dev

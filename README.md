@@ -8,27 +8,16 @@
 -   TypeScript
 -   NestJS
 -   GraphQL
+-   Docker
 
 <br>
 
 > Run in development mode
 
-1. Install the Nest CLI
+1. Start the container defined in the Docker Compose file in detached mode
 
 ```
-$ npm install -g @nestjs/cli
+docker-compose up -d
 ```
 
-2. Install the dependencies
-
-```
-$ npm install
-```
-
-3. Run the application
-
-```
-$ npm run start:dev
-```
-
-5. Open a web browser and do a request to `http://localhost:3000/graphql` to enter Apollo GraphQL Playground
+2. Open a web browser and do a request to `http://localhost:3000/graphql` to enter Apollo GraphQL Playground
